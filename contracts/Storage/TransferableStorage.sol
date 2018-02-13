@@ -15,8 +15,6 @@ contract TransferableStorage is BaseStorage {
     _ownerToKeyAddress[msg.sender] = 0x000000000000000000000000000000000000dEaD;
   }
 
-  /**** Private Methods ***********/
-
   function senderIsValid() private view returns (bool) {
     return _ownerToKeyAddress[msg.sender] != 0x000000000000000000000000000000000000dEaD;
   }
