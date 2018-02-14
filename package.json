@@ -1,12 +1,12 @@
 {
   "name": "levelk-upgradability-contracts",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "main": "lib/index.js",
   "files": [
     "build",
-    "lib",
-    "src"
+    "contracts",
+    "lib"
   ],
   "dependencies": {
     "moment": "^2.18.1",
