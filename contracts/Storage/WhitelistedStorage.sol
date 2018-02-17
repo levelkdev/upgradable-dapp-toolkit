@@ -18,8 +18,4 @@ contract WhitelistedStorage is BaseStorage, Ownable {
   function senderIsValid() private view returns (bool) {
     return _whitelistedSenders[msg.sender];
   }
-
-  function keyAddress() private view returns (address) {
-    return msg.sender;
-  }
 }
