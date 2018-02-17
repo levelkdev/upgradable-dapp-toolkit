@@ -19,11 +19,13 @@ contract TransferableStorage is BaseStorage {
     return _ownerToKeyAddress[msg.sender] != 0x000000000000000000000000000000000000dEaD;
   }
 
-  function keyAddress() private view returns (address) {
+  function scopedKey(bytes32 key) internal view returns(bytes32) {
+    address keyAddress;
     if (_ownerToKeyAddress[msg.sender] == 0x0) {
-      return msg.sender;
+      keyAddress = msg.sender;
     } else {
-      return _ownerToKeyAddress[msg.sender];
+      keyAddress = _ownerToKeyAddress[msg.sender];
     }
+    return keccak256(keyAddress, key);
   }
 }

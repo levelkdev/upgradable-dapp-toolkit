@@ -12,96 +12,100 @@ contract BaseStorage is KeyValueStorage {
   /**** Get Methods ***********/
 
   function getAddress(bytes32 key) public view isAllowed returns (address) {
-      return _addressStorage[keyAddress()][key];
+      return _addressStorage[scopedKey(key)];
   }
 
   function getUint(bytes32 key) public view isAllowed returns (uint) {
-      return _uintStorage[keyAddress()][key];
+      return _uintStorage[scopedKey(key)];
   }
 
   function getString(bytes32 key) public view isAllowed returns (string) {
-      return _stringStorage[keyAddress()][key];
+      return _stringStorage[scopedKey(key)];
   }
 
   function getBytes(bytes32 key) public view isAllowed returns (bytes) {
-      return _bytesStorage[keyAddress()][key];
+      return _bytesStorage[scopedKey(key)];
   }
 
   function getBytes32(bytes32 key) public view isAllowed returns (bytes32) {
-      return _bytes32Storage[keyAddress()][key];
+      return _bytes32Storage[scopedKey(key)];
   }
 
   function getBool(bytes32 key) public view isAllowed returns (bool) {
-      return _boolStorage[keyAddress()][key];
+      return _boolStorage[scopedKey(key)];
   }
 
   function getInt(bytes32 key) public view isAllowed returns (int) {
-      return _intStorage[keyAddress()][key];
+      return _intStorage[scopedKey(key)];
   }
 
   /**** Set Methods ***********/
 
   function setAddress(bytes32 key, address value) public isAllowed {
-    _addressStorage[keyAddress()][key] = value;
+    _addressStorage[scopedKey(key)] = value;
   }
 
   function setUint(bytes32 key, uint value) public isAllowed {
-      _uintStorage[keyAddress()][key] = value;
+      _uintStorage[scopedKey(key)] = value;
   }
 
   function setString(bytes32 key, string value) public isAllowed {
-      _stringStorage[keyAddress()][key] = value;
+      _stringStorage[scopedKey(key)] = value;
   }
 
   function setBytes(bytes32 key, bytes value) public isAllowed {
-      _bytesStorage[keyAddress()][key] = value;
+      _bytesStorage[scopedKey(key)] = value;
   }
 
   function setBytes32(bytes32 key, bytes32 value) public isAllowed {
-      _bytes32Storage[keyAddress()][key] = value;
+      _bytes32Storage[scopedKey(key)] = value;
   }
 
   function setBool(bytes32 key, bool value) public isAllowed {
-      _boolStorage[keyAddress()][key] = value;
+      _boolStorage[scopedKey(key)] = value;
   }
 
   function setInt(bytes32 key, int value) public isAllowed {
-      _intStorage[keyAddress()][key] = value;
+      _intStorage[scopedKey(key)] = value;
   }
 
   /**** Delete Methods ***********/
 
   function deleteAddress(bytes32 key) public isAllowed {
-      delete _addressStorage[keyAddress()][key];
+      delete _addressStorage[scopedKey(key)];
   }
 
   function deleteUint(bytes32 key) public isAllowed {
-      delete _uintStorage[keyAddress()][key];
+      delete _uintStorage[scopedKey(key)];
   }
 
   function deleteString(bytes32 key) public isAllowed {
-      delete _stringStorage[keyAddress()][key];
+      delete _stringStorage[scopedKey(key)];
   }
 
   function deleteBytes(bytes32 key) public isAllowed {
-      delete _bytesStorage[keyAddress()][key];
+      delete _bytesStorage[scopedKey(key)];
   }
 
   function deleteBytes32(bytes32 key) public isAllowed {
-      delete _bytes32Storage[keyAddress()][key];
+      delete _bytes32Storage[scopedKey(key)];
   }
 
   function deleteBool(bytes32 key) public isAllowed {
-      delete _boolStorage[keyAddress()][key];
+      delete _boolStorage[scopedKey(key)];
   }
 
   function deleteInt(bytes32 key) public isAllowed {
-      delete _intStorage[keyAddress()][key];
+      delete _intStorage[scopedKey(key)];
   }
 
   /**** Private Methods ***********/
 
-  function senderIsValid() private view returns (bool);
+  function senderIsValid() private view returns (bool) {
+    return true;
+  }
 
-  function keyAddress() private view returns (address);
+  function scopedKey(bytes32 key) internal view returns(bytes32) {
+    return key;
+  }
 }

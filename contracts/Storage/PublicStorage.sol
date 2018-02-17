@@ -8,8 +8,8 @@ contract PublicStorage is BaseStorage {
     return msg.sender != 0x0;
   }
 
-  function keyAddress() private view returns (address) {
-    return msg.sender;
+  function scopedKey(bytes32 key) internal view returns(bytes32) {
+    return keccak256(msg.sender, key);
   }
 
 }
