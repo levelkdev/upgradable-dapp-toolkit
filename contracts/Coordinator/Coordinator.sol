@@ -49,6 +49,8 @@ contract Coordinator is KeyManagerInterface, DelegateManagerInterface, Ownable {
     }
   }
 
+  /* Private functions */
+
   function getRegisteredStorageDelegate(address _contract) private view returns (address) {
     if (_contract == address(this))
       return delegate;
