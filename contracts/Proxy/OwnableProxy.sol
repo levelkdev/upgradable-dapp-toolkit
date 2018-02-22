@@ -1,25 +1,33 @@
 pragma solidity ^0.4.18;
 
-import "zeppelin-solidity/contracts/ownership/Ownable.sol";
+import "../Storage/BaseStorage.sol";
+import "../StorageConsumer/StorageConsumer.sol";
+import "../Ownership/OwnableConsumer.sol";
 import "./BaseProxy.sol";
 
-contract OwnableProxy is BaseProxy, Ownable {
+contract OwnableProxy is OwnableConsumer, BaseProxy {
 
-  event Upgraded(address indexed implementation);
+  event Upgraded(address indexed implementation_);
 
-  address internal _implementation;
-
-  function OwnableProxy(address implementation) public {
-    _implementation = implementation;
+  function OwnableProxy(BaseStorage storage_, address implementation_)
+    public
+    OwnableConsumer(storage_)
+  {
+    setImplementation(implementation_);
   }
 
   function implementation() public view returns (address) {
-    return _implementation;
+    return _storage.getAddress("implementation");
   }
 
   function upgradeTo(address impl) public onlyOwner {
-    require(_implementation != impl);
-    _implementation = impl;
+    require(implementation() != impl);
+    setImplementation(impl);
     Upgraded(impl);
   }
+
+  function setImplementation(address implementation_) internal {
+    _storage.setAddress("implementation", implementation_);
+  }
+
 }
