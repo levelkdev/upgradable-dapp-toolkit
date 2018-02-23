@@ -2,16 +2,16 @@ pragma solidity ^0.4.18;
 
 import "../Storage/BaseStorage.sol";
 import "../StorageConsumer/StorageConsumer.sol";
-import "../Ownership/OwnableConsumer.sol";
+import "../Delegates/ownership/OwnableDelegate.sol";
 import "./BaseProxy.sol";
 
-contract OwnableProxy is OwnableConsumer, BaseProxy {
+contract OwnableProxy is OwnableDelegate, BaseProxy {
 
   event Upgraded(address indexed implementation_);
 
   function OwnableProxy(BaseStorage storage_, address implementation_)
     public
-    OwnableConsumer(storage_)
+    OwnableDelegate(storage_)
   {
     setImplementation(implementation_);
   }

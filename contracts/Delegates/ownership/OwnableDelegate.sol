@@ -1,9 +1,9 @@
 pragma solidity ^0.4.18;
 
-import "../Storage/BaseStorage.sol";
-import "../StorageConsumer/StorageConsumer.sol";
+import "../../Storage/BaseStorage.sol";
+import "../../StorageConsumer/StorageConsumer.sol";
 
-contract OwnableConsumer is StorageConsumer {
+contract OwnableDelegate is StorageConsumer {
 
   event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
 
@@ -15,7 +15,7 @@ contract OwnableConsumer is StorageConsumer {
     _;
   }
 
-  function OwnableConsumer(BaseStorage storage_) public StorageConsumer(storage_) {
+  function OwnableDelegate(BaseStorage storage_) public StorageConsumer(storage_) {
     if (address(storage_) != 0x0) {
       setOwner(msg.sender);
     }
