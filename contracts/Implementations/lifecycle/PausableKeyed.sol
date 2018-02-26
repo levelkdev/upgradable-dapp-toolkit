@@ -1,12 +1,12 @@
 pragma solidity ^0.4.18;
 
-import "../ownership/OwnableDelegate.sol";
+import "../ownership/OwnableKeyed.sol";
 
 /**
- * @title PausableDelegate
+ * @title PausableKeyed
  * @dev Base contract which allows children to implement an emergency stop mechanism.
  */
-contract PausableDelegate is OwnableDelegate {
+contract PausableKeyed is OwnableKeyed {
   event Pause();
   event Unpause();
 
@@ -26,7 +26,7 @@ contract PausableDelegate is OwnableDelegate {
     _;
   }
 
-  function PausableDelegate(BaseStorage storage_) public OwnableDelegate(storage_) { }
+  function PausableKeyed(BaseStorage storage_) public OwnableKeyed(storage_) { }
 
   /**
    * @dev called by the owner to pause, triggers stopped state
