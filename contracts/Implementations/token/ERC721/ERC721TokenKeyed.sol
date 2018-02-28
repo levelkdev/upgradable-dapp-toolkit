@@ -161,7 +161,7 @@ contract ERC721TokenKeyed is StorageConsumer, ERC721 {
   * @param tokenId uint256 ID of the token to get the owner for
   * @return address The address that owns the token an with ID of tokenId
   */
-  function getTokenOwner(uint256 tokenId) private returns (address) {
+  function getTokenOwner(uint256 tokenId) private view returns (address) {
     return _storage.getAddress(keccak256("tokenOwners", tokenId));
   }
 
