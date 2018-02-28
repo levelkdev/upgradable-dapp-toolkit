@@ -14,120 +14,6 @@ contract ERC721TokenKeyed is StorageConsumer, ERC721 {
   function ERC721TokenKeyed(BaseStorage storage_) StorageConsumer(storage_) public {}
 
   /**
-  * @dev Internal function to increase totalTokens by 1
-  */
-  function incrementTotalTokens() private {
-    _storage.setUint("totalTokens", totalSupply().add(1));
-  }
-
-  /**
-  * @dev Internal function to decrease totalTokens by 1
-  */
-  function decrementTotalTokens() private {
-    _storage.setUint("totalTokens", totalSupply().sub(1));
-  }
-
-  /**
-  * @dev Internal function to get token owner by token ID
-  * @param tokenId uint256 ID of the token to get the owner for
-  * @return address The address that owns the token an with ID of tokenId
-  */
-  function getTokenOwner(uint256 tokenId) private returns (address) {
-    return _storage.getAddress(keccak256("tokenOwners", tokenId));
-  }
-
-  /**
-  * @dev Internal function to set token owner by token ID
-  * @param tokenId uint256 ID of the token to set the owner for
-  * @param tokenOwner address The address of the token owner
-  */
-  function setTokenOwner(uint256 tokenId, address tokenOwner) private {
-    _storage.setAddress(keccak256("tokenOwners", tokenId), tokenOwner);
-  }
-
-  /**
-  * @dev Internal function to get an approved address for a token
-  * @param tokenId uint256 ID of the token to get the approved address for
-  * @return address The approved address for the token
-  */
-  function getTokenApproval(uint256 tokenId) private view returns (address) {
-    return _storage.getAddress(keccak256("tokenApprovals", tokenId));
-  }
-
-  /**
-  * @dev Internal function to set an approved address for a token
-  * @param tokenId uint256 ID of the token to set the approved address for
-  * @param approvedAddress address The approved address to set for the token
-  */
-  function setTokenApproval(uint256 tokenId, address approvedAddress) private {
-    _storage.setAddress(keccak256("tokenApprovals", tokenId), approvedAddress);
-  }
-
-  /**
-  * @dev Internal function to increment an owner's token balance by 1
-  * @param owner address The owner's address
-  */
-  function incrementOwnerBalance(address owner) private {
-    _storage.setUint(keccak256("ownerBalances", owner), balanceOf(owner).add(1));
-  }
-
-  /**
-  * @dev Internal function to decrement an owner's token balance by 1
-  * @param owner address The owner's address
-  */
-  function decrementOwnerBalance(address owner) private {
-    _storage.setUint(keccak256("ownerBalances", owner), balanceOf(owner).sub(1));
-  }
-
-  /**
-  * @dev Internal function to set an ID value within a list of owned token ID's
-  * @param owner address The owner of the token list
-  * @param tokenIndex uint256 The index to set within the owned token list
-  * @param tokenId uint256 The ID of the token to set
-  */
-  function setOwnedToken(address owner, uint256 tokenIndex, uint256 tokenId) private {
-    _storage.setUint(keccak256("ownedTokens", owner, tokenIndex), tokenId);
-  }
-
-  /**
-  * @dev Internal function to append an ID value to a list of owned token ID's
-  * @param owner address The owner of the token list
-  * @param tokenId uint256 The token ID to append
-  */
-  function pushOwnedToken(address owner, uint256 tokenId) private {
-    _storage.setUint(keccak256("ownedTokens", owner, balanceOf(owner)), tokenId);
-    incrementOwnerBalance(owner);
-  }
-
-  /**
-  * @dev Internal function to get an ID value from list of owned token ID's
-  * @param owner address The owner of the token list
-  * @param tokenIndex uint256 The index of the token ID value within the list
-  * @return uint256 The token ID for the given owner and token index
-  */
-  function getOwnedToken(address owner, uint256 tokenIndex) private view returns (uint256) {
-    return _storage.getUint(keccak256("ownedTokens", owner, tokenIndex));
-  }
-
-  /**
-  * @dev Internal function to get the index of a token ID within the owned tokens list
-  * @param tokenId uint256 ID of the token to get the index for
-  * @return uint256 The index of the token for the given ID
-  */
-  function getOwnedTokenIndex(uint256 tokenId) private view returns (uint256) {
-    return _storage.getUint(keccak256("ownedTokensIndex", tokenId));
-  }
-
-  /**
-  * @dev Internal function to set the index of a token ID within the owned tokens list
-  * @param tokenId uint256 ID of the token to set the index for
-  * @param tokenIndex uint256 The token index to set for the given token ID
-  */
-  function setOwnedTokenIndex(uint256 tokenId, uint256 tokenIndex) private {
-    _storage.setUint(keccak256("ownedTokensIndex", tokenId), tokenIndex);
-  }
-
-  /**
   * @dev Guarantees msg.sender is owner of the given token
   * @param _tokenId uint256 ID of the token to validate its ownership belongs to msg.sender
   */
@@ -271,6 +157,43 @@ contract ERC721TokenKeyed is StorageConsumer, ERC721 {
   }
 
   /**
+  * @dev Internal function to get token owner by token ID
+  * @param tokenId uint256 ID of the token to get the owner for
+  * @return address The address that owns the token an with ID of tokenId
+  */
+  function getTokenOwner(uint256 tokenId) private returns (address) {
+    return _storage.getAddress(keccak256("tokenOwners", tokenId));
+  }
+
+  /**
+  * @dev Internal function to get an approved address for a token
+  * @param tokenId uint256 ID of the token to get the approved address for
+  * @return address The approved address for the token
+  */
+  function getTokenApproval(uint256 tokenId) private view returns (address) {
+    return _storage.getAddress(keccak256("tokenApprovals", tokenId));
+  }
+
+  /**
+  * @dev Internal function to get an ID value from list of owned token ID's
+  * @param owner address The owner of the token list
+  * @param tokenIndex uint256 The index of the token ID value within the list
+  * @return uint256 The token ID for the given owner and token index
+  */
+  function getOwnedToken(address owner, uint256 tokenIndex) private view returns (uint256) {
+    return _storage.getUint(keccak256("ownedTokens", owner, tokenIndex));
+  }
+
+  /**
+  * @dev Internal function to get the index of a token ID within the owned tokens list
+  * @param tokenId uint256 ID of the token to get the index for
+  * @return uint256 The index of the token for the given ID
+  */
+  function getOwnedTokenIndex(uint256 tokenId) private view returns (uint256) {
+    return _storage.getUint(keccak256("ownedTokensIndex", tokenId));
+  }
+
+  /**
   * @dev Internal function to clear current approval of a given token ID
   * @param _tokenId uint256 ID of the token to be transferred
   */
@@ -317,5 +240,82 @@ contract ERC721TokenKeyed is StorageConsumer, ERC721 {
     setOwnedTokenIndex(_tokenId, 0);
     setOwnedTokenIndex(lastToken, tokenIndex);
     decrementTotalTokens();
+  }
+  
+  /**
+  * @dev Internal function to increase totalTokens by 1
+  */
+  function incrementTotalTokens() private {
+    _storage.setUint("totalTokens", totalSupply().add(1));
+  }
+
+  /**
+  * @dev Internal function to decrease totalTokens by 1
+  */
+  function decrementTotalTokens() private {
+    _storage.setUint("totalTokens", totalSupply().sub(1));
+  }
+
+  /**
+  * @dev Internal function to set token owner by token ID
+  * @param tokenId uint256 ID of the token to set the owner for
+  * @param tokenOwner address The address of the token owner
+  */
+  function setTokenOwner(uint256 tokenId, address tokenOwner) private {
+    _storage.setAddress(keccak256("tokenOwners", tokenId), tokenOwner);
+  }
+
+  /**
+  * @dev Internal function to set an approved address for a token
+  * @param tokenId uint256 ID of the token to set the approved address for
+  * @param approvedAddress address The approved address to set for the token
+  */
+  function setTokenApproval(uint256 tokenId, address approvedAddress) private {
+    _storage.setAddress(keccak256("tokenApprovals", tokenId), approvedAddress);
+  }
+
+  /**
+  * @dev Internal function to increment an owner's token balance by 1
+  * @param owner address The owner's address
+  */
+  function incrementOwnerBalance(address owner) private {
+    _storage.setUint(keccak256("ownerBalances", owner), balanceOf(owner).add(1));
+  }
+
+  /**
+  * @dev Internal function to decrement an owner's token balance by 1
+  * @param owner address The owner's address
+  */
+  function decrementOwnerBalance(address owner) private {
+    _storage.setUint(keccak256("ownerBalances", owner), balanceOf(owner).sub(1));
+  }
+
+  /**
+  * @dev Internal function to set an ID value within a list of owned token ID's
+  * @param owner address The owner of the token list
+  * @param tokenIndex uint256 The index to set within the owned token list
+  * @param tokenId uint256 The ID of the token to set
+  */
+  function setOwnedToken(address owner, uint256 tokenIndex, uint256 tokenId) private {
+    _storage.setUint(keccak256("ownedTokens", owner, tokenIndex), tokenId);
+  }
+
+  /**
+  * @dev Internal function to append an ID value to a list of owned token ID's
+  * @param owner address The owner of the token list
+  * @param tokenId uint256 The token ID to append
+  */
+  function pushOwnedToken(address owner, uint256 tokenId) private {
+    _storage.setUint(keccak256("ownedTokens", owner, balanceOf(owner)), tokenId);
+    incrementOwnerBalance(owner);
+  }
+
+  /**
+  * @dev Internal function to set the index of a token ID within the owned tokens list
+  * @param tokenId uint256 ID of the token to set the index for
+  * @param tokenIndex uint256 The token index to set for the given token ID
+  */
+  function setOwnedTokenIndex(uint256 tokenId, uint256 tokenIndex) private {
+    _storage.setUint(keccak256("ownedTokensIndex", tokenId), tokenIndex);
   }
 }
